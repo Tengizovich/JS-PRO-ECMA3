@@ -1,60 +1,20 @@
-// Функция getUserData
 function getUserData(userID) {
-  return fetch(`https://jsonplaceholder.typicode.com/users/${userID}`)
+  return fetch(`https://reqres.in/api/users/${userID}`)
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Пользователь не найден');
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Пользователь с указанным ID не найден');
       }
-      return response.json();
-    });
+    })
+    .then(data => data);
 }
-
-// Пример использования функции
 getUserData(1)
-  .then(userData => {
-    console.log(userData);
+  .then(user => {
+    console.log(user);
+    // Выводит объект с данными о пользователе
   })
   .catch(error => {
-    console.log(error.message);
+    console.error(error.message);
+    // Выводит сообщение об ошибке, если пользователь с указанным ID не найден
   });
-
-
-// Функция saveUserData
-function saveUserData(userData) {
-  return fetch('https://jsonplaceholder.typicode.com/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(userData)
-  });
-}
-
-// Пример использования функции
-const user = {
-  name: 'John Smith',
-  age: 30,
-  email: 'john@example.com'
-};
-
-saveUserData(user)
-  .then(() => {
-    console.log('Данные пользователя успешно сохранены');
-  })
-  .catch(error => {
-    console.log(error.message);
-  });
-
-
-// Функция changeStyleDelayed
-function changeStyleDelayed(elementId, delay) {
-  setTimeout(() => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.style.color = 'red';
-    }
-  }, delay);
-}
-
-// Пример использования функции
-changeStyleDelayed('myElement', 2000);
